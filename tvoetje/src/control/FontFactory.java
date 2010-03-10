@@ -13,12 +13,12 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author bram
+ * @author Bram Gadeyne
  */
 public class FontFactory {
     private static FontFactory factory;
     public enum Fonts{
-        DEFAULT, RAAMSCHRIFT
+        DEFAULT, RAAMSCHRIFT, HEADER
     }
 
     private FontFactory()
@@ -41,6 +41,9 @@ public class FontFactory {
             switch (fontname) {
                 case RAAMSCHRIFT:
                     font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/resources/VRaam.TTF")).deriveFont(14f);
+                    break;
+                case HEADER:
+                    font=font.deriveFont(24f);
                     break;
             }
             

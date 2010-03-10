@@ -26,10 +26,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
+import model.PDFCreator;
 
 /**
  *
- * @author bram
+ * @author Bram Gadeyne
  */
 public class VoetjeApplet extends JApplet {
 
@@ -37,7 +38,6 @@ public class VoetjeApplet extends JApplet {
      * Initialization method that will be called after the applet is loaded
      * into the browser.
      */
-    private final String headurl="http://voetje.bramgadeyne.be/images/geheimschrijverhead.jpg";
 
     private CoderFactory factory;
     private Controller controller;
@@ -77,10 +77,9 @@ public class VoetjeApplet extends JApplet {
         Image img=null;
         this.setSize(new Dimension(700,500));
         try {
-            //img = ImageIO.read(new URL(headurl));
             img = ImageIO.read(this.getClass().getResource("/resources/geheimschrijverhead.jpg"));
         } catch (IOException ioex) {
-            //
+            //headimage niet geladen.
         }
         if(img!=null)
         {
