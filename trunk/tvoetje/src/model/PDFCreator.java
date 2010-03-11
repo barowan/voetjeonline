@@ -6,27 +6,57 @@
 package model;
 
 import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Bram Gadeyne
  */
 public class PDFCreator {
+    private static PDFCreator creator;
+
     private Document document;
     
-
-    public PDFCreator() {
-        document=new Document();
+    private PDFCreator() {
         registerFonts();
-        addMetaData();
-        
+    }
+
+    public static PDFCreator getInstance()
+    {
+        if(creator==null)
+        {
+            creator=new PDFCreator();
+        }
+        return creator;
     }
 
     private void registerFonts()
     {
         FontFactory.register("/resources/VRaam.TTF", "raamschrift"); //seems to work
+    }
+
+    public void createPDF(String location, String text)
+    {
+        document=new Document();
+        document.open();
+        //addMetaData();
+
+        Paragraph p=new Paragraph(text);
+        try {
+            document.add(p);
+            PdfWriter.getInstance(document, new FileOutputStream(location));
+        } catch (DocumentException ex) {
+            Logger.getLogger(PDFCreator.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PDFCreator.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void addMetaData()
@@ -61,7 +91,7 @@ public class PDFCreator {
 
     }
 
-    private static void addEmptyLine(Paragraph paragraph, int number) {
+    private void addEmptyLine(Paragraph paragraph, int number) {
             for (int i = 0; i < number; i++) {
                     paragraph.add(new Paragraph(" "));
             }

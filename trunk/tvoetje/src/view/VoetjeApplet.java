@@ -19,9 +19,13 @@ import javax.swing.JPanel;
 import control.CoderFactory;
 import control.Controller;
 import java.awt.Color;
+import java.awt.FileDialog;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Image;
+import java.awt.ScrollPane;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -57,6 +61,7 @@ public class VoetjeApplet extends JApplet {
 
     private JButton codeerButton;
     private JButton decodeerButton;
+    private JButton pdfButton;
 
     private JTextArea codedTextField;
     private JTextArea uncodedTextField;
@@ -128,6 +133,14 @@ public class VoetjeApplet extends JApplet {
             }
         });
 
+        pdfButton=new JButton("PDF");
+        pdfButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pdfButtonActionPerformed(e);
+            }
+        });
+
         choisePanel=new JPanel();
         choisePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         choisePanel.setBackground(new java.awt.Color(32, 104, 37));
@@ -137,6 +150,7 @@ public class VoetjeApplet extends JApplet {
         choisePanel.add(codeCombobox);
         choisePanel.add(codeerButton);
         choisePanel.add(decodeerButton);
+        choisePanel.add(pdfButton);
 
 
         optionsPanel=new NoOptionsPanel();
@@ -151,14 +165,18 @@ public class VoetjeApplet extends JApplet {
         invoerPanel.setBackground(new java.awt.Color(32, 104, 37));
         invoerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "invoer", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(254, 254, 254)));
         invoerPanel.setLayout(new GridLayout(1,0));
-        invoerPanel.add(uncodedTextField);
+        ScrollPane scrollpane=new ScrollPane();
+        scrollpane.add(uncodedTextField);
+        invoerPanel.add(scrollpane);
 
 
         uitvoerPanel=new JPanel();
         uitvoerPanel.setBackground(new java.awt.Color(32, 104, 37));
         uitvoerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "uitvoer", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(254, 254, 254)));
         uitvoerPanel.setLayout(new GridLayout(1,0));
-        uitvoerPanel.add(codedTextField);
+        scrollpane=new ScrollPane();
+        scrollpane.add(codedTextField);
+        uitvoerPanel.add(scrollpane);
 
 
         center=new JPanel();
@@ -232,6 +250,14 @@ public class VoetjeApplet extends JApplet {
         {
             codedTextField.setText(e.getMessage());
         }
+    }
+
+    private void pdfButtonActionPerformed(ActionEvent evt){
+        Frame parent=new Frame();
+        FileDialog dialog=new FileDialog(parent,"select file location", FileDialog.SAVE);
+        dialog.setVisible(true);
+        String location=dialog.getDirectory()+File.separator+dialog.getFile();
+        PDFCreator.getInstance().createPDF(location, "test");
     }
 
     public void setFontType(Font font)

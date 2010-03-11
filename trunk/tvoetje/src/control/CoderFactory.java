@@ -5,7 +5,10 @@
 
 package control;
 
+import com.sun.jmx.remote.util.OrderClassLoaders;
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 import javax.swing.JPanel;
@@ -60,9 +63,12 @@ public class CoderFactory {
         }
     }
 
-    public Set<String> getCodernames()
+    public ArrayList<String> getCodernames()
     {
-        return coders.keySet();
+        ArrayList<String> list=new ArrayList<String>();
+        list.addAll(coders.keySet());
+        Collections.sort(list);
+        return list;
     }
 
     public static CoderFactory getInstance()

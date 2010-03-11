@@ -21,7 +21,7 @@ public abstract class IOptionsPanel extends JPanel {
 
     public IOptionsPanel()
     {
-        this.setPreferredSize(new Dimension(200,300));
+        this.setPreferredSize(new Dimension(200,250));
         this.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, Color.LIGHT_GRAY));
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
         this.setBackground(new java.awt.Color(32, 104, 37));
