@@ -82,6 +82,7 @@ public class CodewordCoder extends ICoder {
 
     @Override
     public String decode(String d) {
+        //TODO: insert decodesupport for codewordCoder
         return super.decode(d);
     }
 }

@@ -28,7 +28,6 @@ public class AIsXOptionsPanel extends IOptionsPanel{
     {
         xField=new JTextField();
         xField.setColumns(13);
-        //TODO controle of xField enkel een cijfer tussen 1 en 26 kan bevatten.
     }
 
     private void addControls()
