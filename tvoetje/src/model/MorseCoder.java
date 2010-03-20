@@ -78,6 +78,7 @@ public class MorseCoder extends ICoder {
     }
 
     public String decode(String d) {
-        throw new UnsupportedOperationException("morse decoderen komt in een latere versie..");
+        return super.decode(d);
+        //TODO: insert decodesupport for morse
     }
 }
