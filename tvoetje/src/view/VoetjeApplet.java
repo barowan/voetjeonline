@@ -150,7 +150,7 @@ public class VoetjeApplet extends JApplet {
         choisePanel.add(codeCombobox);
         choisePanel.add(codeerButton);
         choisePanel.add(decodeerButton);
-        choisePanel.add(pdfButton);
+        //choisePanel.add(pdfButton);
 
 
         optionsPanel=new NoOptionsPanel();
@@ -229,15 +229,23 @@ public class VoetjeApplet extends JApplet {
     }
 
     private void codeButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        String uncoded=uncodedTextField.getText();
-        try
+        
+        String error=((IOptionsPanel)optionsPanel).validateOptions();
+        if(error.equals(""))
         {
-            codedTextField.setText(controller.doCode(((IOptionsPanel)optionsPanel).getOptionValues(),uncoded));
-            //codedTextField.setText(String.valueOf(codedTextField.getFont().getSize()));
-        }catch(Exception e)
-        {
-            codedTextField.setText(e.getMessage());
+            String uncoded=uncodedTextField.getText();
+             try
+            {
+                codedTextField.setText(controller.doCode(((IOptionsPanel)optionsPanel).getOptionValues(),uncoded));
+                //codedTextField.setText(String.valueOf(codedTextField.getFont().getSize()));
+            }catch(Exception e)
+            {
+                codedTextField.setText(e.getMessage());
+            }
+        }else{
+            codedTextField.setText("An error occured: "+error);
         }
+       
 
     }
 

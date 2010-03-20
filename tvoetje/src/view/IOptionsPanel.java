@@ -32,6 +32,8 @@ public abstract class IOptionsPanel extends JPanel {
         return new HashMap<String, String>();
     }
 
-
-
+    public String validateOptions()
+    {
+        return "";
+    }
 }
