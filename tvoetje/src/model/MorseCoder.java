@@ -6,6 +6,8 @@
 package model;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 /**
  *
@@ -14,10 +16,12 @@ import java.util.HashMap;
 public class MorseCoder extends ICoder {
 
     HashMap<Character, String> morsemap;
+    HashMap<String,Character> inversemap;
 
     public MorseCoder()
     {
         morsemap=new HashMap<Character, String>();
+        inversemap=new HashMap<String, Character>();
         initMorseMap();
     }
 
@@ -60,6 +64,12 @@ public class MorseCoder extends ICoder {
         morsemap.put('7',"--...");
         morsemap.put('8',"---..");
         morsemap.put('9',"----.");
+        Iterator<Entry<Character,String> > it=morsemap.entrySet().iterator();
+        while(it.hasNext())
+        {
+            Entry<Character,String> entry=it.next();
+            inversemap.put(entry.getValue(), entry.getKey());
+        }
     }
 
     public String code(String s) {
@@ -77,8 +87,21 @@ public class MorseCoder extends ICoder {
         return coded;
     }
 
+    @Override
     public String decode(String d) {
-        return super.decode(d);
+        String[] arr=d.split("/");
+        String coded="";
+        for(int i=0;i<arr.length;i++)
+        {
+            if(inversemap.containsKey(arr[i]))
+            {
+                coded+=inversemap.get(arr[i]);
+            }else{
+                coded+=arr[i];
+            }
+        }
+        return coded;
+        //return super.decode(d);
         //TODO: insert decodesupport for morse
     }
 }
