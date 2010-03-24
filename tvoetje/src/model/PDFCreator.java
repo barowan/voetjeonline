@@ -45,13 +45,18 @@ public class PDFCreator {
     public void createPDF(String location, String text)
     {
         document=new Document();
-        document.open();
+        //document.open();
         //addMetaData();
 
-        Paragraph p=new Paragraph(text);
+        
         try {
-            document.add(p);
+            
             PdfWriter.getInstance(document, new FileOutputStream(location));
+            document.open();
+            Paragraph p=new Paragraph(text);
+            p.setFont(FontFactory.getFont("raamschrift"));//font not printed correctly
+            document.add(p);
+            document.close();
         } catch (DocumentException ex) {
             Logger.getLogger(PDFCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {

@@ -265,7 +265,7 @@ public class VoetjeApplet extends JApplet {
         FileDialog dialog=new FileDialog(parent,"select file location", FileDialog.SAVE);
         dialog.setVisible(true);
         String location=dialog.getDirectory()+File.separator+dialog.getFile();
-        PDFCreator.getInstance().createPDF(location, "test");
+        PDFCreator.getInstance().createPDF(location, "Hello World");
     }
 
     public void setFontType(Font font)
