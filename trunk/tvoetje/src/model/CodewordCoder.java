@@ -67,6 +67,18 @@ public class CodewordCoder extends ICoder {
 
     @Override
     public String code(String s) {
+        return processString(s);
+    }
+
+
+
+    @Override
+    public String decode(String d) {
+        return processString(d);
+    }
+
+    private String processString(String s)
+    {
         char[] answer=new char[s.length()];
         char[] question=s.toCharArray();
         for(int l=0;l<s.length();l++)
@@ -78,11 +90,5 @@ public class CodewordCoder extends ICoder {
             }
         }
         return new String(answer);
-    }
-
-    @Override
-    public String decode(String d) {
-        //TODO: insert decodesupport for codewordCoder
-        return super.decode(d);
     }
 }
