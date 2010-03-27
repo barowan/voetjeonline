@@ -5,17 +5,16 @@
 
 package control;
 
-import com.sun.jmx.remote.util.OrderClassLoaders;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Set;
 import javax.swing.JPanel;
 import model.AIsXCoder;
 import model.BlokMethodeCoder;
 import model.CodewordCoder;
 import model.ICoder;
+import model.JaartalCoder;
 import model.MorseCoder;
 import model.NoCoder;
 import model.RaamschriftCoder;
@@ -23,6 +22,7 @@ import model.SwitchLettersCoder;
 import model.WindroosCoder;
 import view.AIsXOptionsPanel;
 import view.CodewordOptionsPanel;
+import view.JaartalOptionsPanel;
 import view.NoOptionsPanel;
 
 /**
@@ -41,6 +41,7 @@ public class CoderFactory {
     public static final String BLOKMETHODE="blokmethode";
     public static final String RAAMSCHRIFT="raamschrift";
     public static final String AIsX="A is X";
+    public static final String JAARTAL="jaartal";
 
 
     private CoderFactory()
@@ -92,6 +93,7 @@ public class CoderFactory {
         coders.put(BLOKMETHODE,5);
         coders.put(RAAMSCHRIFT,6);
         coders.put(AIsX, 7);
+        coders.put(JAARTAL,8);
     }
 
     public ICoder getCoder(String name) throws Exception
@@ -109,6 +111,7 @@ public class CoderFactory {
             case 5: ic=new BlokMethodeCoder();break;
             case 6: ic=new RaamschriftCoder(); break;
             case 7: ic=new AIsXCoder();break;
+            case 8: ic=new JaartalCoder(); break;
             default: ic=new NoCoder(); break;
         }
         return ic;
@@ -121,6 +124,8 @@ public class CoderFactory {
             panel=new CodewordOptionsPanel();
         if(name.compareTo(AIsX)==0)
             panel=new AIsXOptionsPanel();
+        if(name.compareTo(JAARTAL)==0)
+            panel=new JaartalOptionsPanel();
         if(panel==null)
             panel=new NoOptionsPanel();
         return panel;
