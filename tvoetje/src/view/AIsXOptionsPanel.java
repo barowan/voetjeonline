@@ -57,13 +57,11 @@ public class AIsXOptionsPanel extends IOptionsPanel{
         {
             Integer x=Integer.parseInt(xField.getText());
             if(!(x>=1 && x<=26))
-                throw new Exception();
+                error+="x moet een waarde tussen 1 en 26 krijgen\n";
             if(xField.getText().length()==0)
-                throw new Exception();
+                error+="Gelieve een numerieke waarde voor x in te vullen op het linker paneel\n";
         }catch(NumberFormatException ex){
-            error=error+"x is not a number";
-        }catch(Exception e){
-            error=error+"x moet tussen 1 en 26 liggen";
+            error=error+"x moet een numerieke waarde krijgen.\n";
         }
 
         return error;

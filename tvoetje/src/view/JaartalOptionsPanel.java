@@ -52,7 +52,11 @@ public class JaartalOptionsPanel extends IOptionsPanel {
              Integer.parseInt(jaartalField.getText());
              if(jaartalField.getText().contains("0"))
              {
-                 error+="het jaartal mag geen nullen bevatten.";
+                 error+="Het jaartal mag geen nullen bevatten.\n";
+             }
+             if(jaartalField.getText().length()==0)
+             {
+                 error+="Gelieve een jaartal in te vullen op het linker paneel.\n";
              }
          }catch(NumberFormatException nfex)
          {

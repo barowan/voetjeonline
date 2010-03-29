@@ -7,6 +7,8 @@ package view;
 
 import java.awt.Color;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import model.CodewordCoder;
@@ -44,6 +46,33 @@ public class CodewordOptionsPanel extends IOptionsPanel {
         hm.put(CodewordCoder.codeword, codewordField.getText());
         return hm;
     }
+
+    @Override
+    public String validateOptions() {
+        String error= super.validateOptions();
+        String codewoord=codewordField.getText();
+        HashSet<Character> set=new HashSet<Character>();
+        boolean found=false;
+        for(char x: codewoord.toCharArray())
+        {
+            if(!set.contains(x))
+            {
+                set.add(x);
+            }else{
+                found=true;
+            }
+        }
+        if(found)
+            error+="Het codewoord moet uit unieke karakters bestaan.\n";
+        if(codewoord.length()>13 || found)
+            error+="Het codewoord mag maximum uit 13 karakters bestaan.\n";
+        if(codewoord.length()==0)
+            error+="Gelieve een codewoord in te vullen.\n";
+
+        return error;
+    }
+
+    
 
 
 }
