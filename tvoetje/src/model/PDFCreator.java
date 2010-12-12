@@ -7,11 +7,14 @@ package model;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,7 +42,7 @@ public class PDFCreator {
 
     private void registerFonts()
     {
-        FontFactory.register("/resources/VRaam.TTF", "raamschrift"); //seems to work
+        FontFactory.register("resources/VRaam.TTF", "raamschrift"); //seems to work
     }
 
     public void createPDF(String location, String text)
@@ -50,16 +53,17 @@ public class PDFCreator {
 
         
         try {
-            
+            BaseFont bf=BaseFont.createFont("resources/VRaam.TTF",BaseFont.WINANSI, BaseFont.EMBEDDED);
+            Font f=new Font(bf,12);
             PdfWriter.getInstance(document, new FileOutputStream(location));
             document.open();
-            Paragraph p=new Paragraph(text);
-            p.setFont(FontFactory.getFont("raamschrift"));//font not printed correctly
+            Paragraph p=new Paragraph(text, f);
+            //p.setFont(FontFactory.getFont("raamschrift"));//font not printed correctly
             document.add(p);
             document.close();
-        } catch (DocumentException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(PDFCreator.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
+        } catch (DocumentException ex) {
             Logger.getLogger(PDFCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -150,7 +150,7 @@ public class VoetjeApplet extends JApplet {
         choisePanel.add(codeCombobox);
         choisePanel.add(codeerButton);
         choisePanel.add(decodeerButton);
-        //choisePanel.add(pdfButton);
+        choisePanel.add(pdfButton);
 
 
         optionsPanel=new NoOptionsPanel();
@@ -261,11 +261,11 @@ public class VoetjeApplet extends JApplet {
     }
 
     private void pdfButtonActionPerformed(ActionEvent evt){
-        Frame parent=new Frame();
-        FileDialog dialog=new FileDialog(parent,"select file location", FileDialog.SAVE);
-        dialog.setVisible(true);
-        String location=dialog.getDirectory()+File.separator+dialog.getFile();
-        PDFCreator.getInstance().createPDF(location, "Hello World");
+        //Frame parent=new Frame();
+        //FileDialog dialog=new FileDialog(parent,"select file location", FileDialog.SAVE);
+        //dialog.setVisible(true);
+        //String location=dialog.getDirectory()+File.separator+dialog.getFile();
+        PDFCreator.getInstance().createPDF("/home/bram/Bureaublad/test.pdf", "Hello World");
     }
 
     public void setFontType(Font font)
