@@ -19,18 +19,17 @@ import javax.swing.JPanel;
 import control.CoderFactory;
 import control.Controller;
 import java.awt.Color;
-import java.awt.FileDialog;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.Image;
 import java.awt.ScrollPane;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
 import model.PDFCreator;
+import model.SecretKeeper;
+import view.textoverview.TextOverviewPanel;
 
 /**
  *
@@ -52,6 +51,7 @@ public class VoetjeApplet extends JApplet {
     private JPanel head;
     private JPanel left;
     private JPanel center;
+    private TextOverviewPanel right;
 
     private JPanel choisePanel;
     private JPanel optionsPanel;
@@ -102,8 +102,7 @@ public class VoetjeApplet extends JApplet {
         head.setPreferredSize(new Dimension(700,100));
         head.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.LIGHT_GRAY));
         
-        
-        
+        right=new TextOverviewPanel();
 
         left=new JPanel();
         left.setLayout(new BorderLayout());
@@ -192,6 +191,7 @@ public class VoetjeApplet extends JApplet {
         getContentPane().add(head, BorderLayout.PAGE_START);
         getContentPane().add(left, BorderLayout.LINE_START);
         getContentPane().add(center,BorderLayout.CENTER);
+        getContentPane().add(right, BorderLayout.LINE_END);
     }
 
     private void setComboboxItems() {
@@ -229,14 +229,25 @@ public class VoetjeApplet extends JApplet {
     }
 
     private void codeButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        IOptionsPanel optionsPanelImpl=(IOptionsPanel)optionsPanel;
+        String error=optionsPanelImpl.validateOptions();
         
-        String error=((IOptionsPanel)optionsPanel).validateOptions();
         if(error.equals(""))
         {
             String uncoded=uncodedTextField.getText();
-             try
+            String coder=(String) codeCombobox.getSelectedItem();
+            SecretKeeper keeper=new SecretKeeper(uncoded, coder);
+            if(optionsPanelImpl.getOptionValues()!=null){
+                keeper.setOptions(optionsPanelImpl.getOptionValues());
+            }
+            right.addSecret(keeper);
+            right.renewSecrets();
+            
+            try
             {
-                codedTextField.setText(controller.doCode(((IOptionsPanel)optionsPanel).getOptionValues(),uncoded));
+                String codedText=controller.doCode(((IOptionsPanel)optionsPanel).getOptionValues(),uncoded);
+
+                codedTextField.setText(codedText);
                 //codedTextField.setText(String.valueOf(codedTextField.getFont().getSize()));
             }catch(Exception e)
             {
@@ -265,7 +276,7 @@ public class VoetjeApplet extends JApplet {
         //FileDialog dialog=new FileDialog(parent,"select file location", FileDialog.SAVE);
         //dialog.setVisible(true);
         //String location=dialog.getDirectory()+File.separator+dialog.getFile();
-        PDFCreator.getInstance().createPDF("/home/bram/Bureaublad/test.pdf", "Hello World");
+        PDFCreator.getInstance().createPDF("/home/bram/Bureaublad/test.pdf", right.getSecrets());
     }
 
     public void setFontType(Font font)

@@ -101,7 +101,5 @@ public class MorseCoder extends ICoder {
             }
         }
         return coded;
-        //return super.decode(d);
-        //TODO: insert decodesupport for morse
     }
 }

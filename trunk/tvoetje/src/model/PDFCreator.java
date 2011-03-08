@@ -12,9 +12,11 @@ import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
+import control.CoderFactory;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,21 +47,34 @@ public class PDFCreator {
         FontFactory.register("resources/VRaam.TTF", "raamschrift"); //seems to work
     }
 
-    public void createPDF(String location, String text)
+    public void createPDF(String location, List<SecretKeeper> secrets)
     {
         document=new Document();
         //document.open();
         //addMetaData();
 
         
+
+        
         try {
-            BaseFont bf=BaseFont.createFont("resources/VRaam.TTF",BaseFont.WINANSI, BaseFont.EMBEDDED);
+            //BaseFont bf=BaseFont.createFont("resources/VRaam.TTF",BaseFont.WINANSI, BaseFont.EMBEDDED);
+            BaseFont bf=BaseFont.createFont();
             Font f=new Font(bf,12);
             PdfWriter.getInstance(document, new FileOutputStream(location));
             document.open();
-            Paragraph p=new Paragraph(text, f);
-            //p.setFont(FontFactory.getFont("raamschrift"));//font not printed correctly
-            document.add(p);
+            for(SecretKeeper keeper:secrets){
+                ICoder coder;
+                try {
+                    coder = CoderFactory.getInstance().getCoder(keeper.getCoder());
+                    coder.setOptions(keeper.getOptions());
+                    Paragraph p=new Paragraph(coder.code(location), f);
+                    //p.setFont(FontFactory.getFont("raamschrift"));//font not printed correctly
+                    document.add(p);
+                } catch (Exception ex) {
+                    Logger.getLogger(PDFCreator.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
             document.close();
         } catch (IOException ex) {
             Logger.getLogger(PDFCreator.class.getName()).log(Level.SEVERE, null, ex);
